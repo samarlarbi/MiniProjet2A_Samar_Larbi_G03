@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Événement{% endblock %}
+
+{% block body %}
+    <div style="max-width: 600px; margin: 0 auto;" class="glass card">
+        <div class="card-body">
+            <h1>Modifier: {{ event.title }}</h1>
+            {{ include('admin/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            
+            <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <a href="{{ path('app_admin_dashboard') }}" style="color: var(--text-muted); text-decoration: none;">&larr; Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

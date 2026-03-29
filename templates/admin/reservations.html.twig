@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations pour {{ event.title }}{% endblock %}
+
+{% block body %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>Réservations : {{ event.title }}</h1>
+        <a href="{{ path('app_admin_dashboard') }}" class="btn btn-outline">&larr; Retour</a>
+    </div>
+
+    <div class="glass card" style="padding: 1.5rem; overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom Comptet</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Date de Réservation</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reservation in event.reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td><strong>{{ reservation.name }}</strong></td>
+                    <td>{{ reservation.email }}</td>
+                    <td>{{ reservation.phone }}</td>
+                    <td>{{ reservation.createdAt ? reservation.createdAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        Aucune réservation pour le moment.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

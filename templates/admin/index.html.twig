@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block body %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>Gestion des Événements</h1>
+        <a href="{{ path('app_admin_event_new') }}" class="btn">
+            + Nouvel Événement
+        </a>
+    </div>
+
+    <div class="glass card" style="padding: 1.5rem; overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Date</th>
+                    <th>Lieu</th>
+                    <th>Places dispo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td><strong>{{ event.title }}</strong></td>
+                    <td>{{ event.date ? event.date|date('d/m/Y H:i') : '' }}</td>
+                    <td>{{ event.location }}</td>
+                    <td>
+                        {{ event.seats - event.reservations|length }} / {{ event.seats }}
+                        <br>
+                        <a href="{{ path('app_admin_event_reservations', {'id': event.id}) }}" style="color: var(--accent-1); font-size: 0.85em;">Voir les réservations</a>
+                    </td>
+                    <td style="display: flex; gap: 0.5rem;">
+                        <a href="{{ path('app_admin_event_edit', {'id': event.id}) }}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85em;">Éditer</a>
+                        {{ include('admin/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        Aucun événement trouvé
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Security Check Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('jwt_token');
+            if (!token) {
+                alert("Accès refusé. Veuillez vous connecter en tant qu'administrateur.");
+                window.location.href = "{{ path('app_login') }}";
+            }
+        });
+    </script>
+{% endblock %}

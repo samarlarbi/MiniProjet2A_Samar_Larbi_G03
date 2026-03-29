@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div style="max-width: 400px; margin: 0 auto;" class="glass card">
+        <div class="card-body">
+            <h1 style="text-align: center; margin-bottom: 2rem;">Inscription</h1>
+            <div id="error-msg" class="alert alert-error" style="display: none;"></div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" class="form-control" required placeholder="nom@exemple.com">
+            </div>
+
+            <div class="form-group">
+                <label>Nom d'affichage</label>
+                <input type="text" id="displayName" class="form-control" placeholder="John Doe">
+            </div>
+
+            <button onclick="handleRegister()" class="btn" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 1rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                Créer une Passkey
+            </button>
+
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-muted); font-size: 0.9em;">
+                Déjà un compte ? <a href="{{ path('app_login') }}" style="color: var(--accent-1);">Se connecter</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    async function handleRegister() {
+        const email = document.getElementById('email').value;
+        const displayName = document.getElementById('displayName').value;
+        const errorMsg = document.getElementById('error-msg');
+        
+        if(!email) {
+            errorMsg.innerText = "L'email est requis";
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        errorMsg.style.display = 'none';
+        
+        try {
+            await registerPasskey(email, displayName || email);
+            window.location.href = '{{ path("app_event_index") }}';
+        } catch(e) {
+            errorMsg.innerText = e.message;
+            errorMsg.style.display = 'block';
+        }
+    }
+</script>
+{% endblock %}

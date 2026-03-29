@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Événements{% endblock %}
+
+{% block body %}
+    <h1 style="margin-bottom: 2rem;">Événements à Venir</h1>
+
+    <div class="card-grid">
+        {% for event in events %}
+            <div class="card glass">
+                {% if event.image %}
+                    <img src="{{ event.image }}" alt="{{ event.title }}" class="card-img">
+                {% else %}
+                    <div class="card-img" style="background: linear-gradient(135deg, var(--surface-color), var(--bg-color)); display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+                        Image non disponible
+                    </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h2 class="card-title">{{ event.title }}</h2>
+                    <p class="card-text">
+                        <strong>Date :</strong> {{ event.date ? event.date|date('d/m/Y H:i') : '' }}<br>
+                        <strong>Lieu :</strong> {{ event.location }}<br>
+                        <strong>Places dispo :</strong> {{ event.seats - event.reservations|length }} / {{ event.seats }}
+                    </p>
+                    <a href="{{ path('app_event_show', {'id': event.id}) }}" class="btn" style="width: 100%; text-align: center; box-sizing: border-box;">Voir les détails</a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun événement disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

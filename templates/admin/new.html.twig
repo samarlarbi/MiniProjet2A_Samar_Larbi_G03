@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Événement{% endblock %}
+
+{% block body %}
+    <div style="max-width: 600px; margin: 0 auto;" class="glass card">
+        <div class="card-body">
+            <h1>Créer un événement</h1>
+            {{ include('admin/_form.html.twig') }}
+            <a href="{{ path('app_admin_dashboard') }}" style="display: inline-block; margin-top: 1rem; color: var(--text-muted); text-decoration: none;">&larr; Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}
