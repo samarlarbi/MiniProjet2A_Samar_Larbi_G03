@@ -1,5 +1,7 @@
 # MiniProjet2A — Réservation d'Événements - Samar Larbi G03
+## ---- DEMO Video ----
 
+https://drive.google.com/drive/folders/1Qp9WQlL5dSoLZ-0PFd4rX5w3hP1b8aH6?usp=sharing
 
 ## Présentation
 
@@ -26,7 +28,7 @@ et de consulter la liste des réservations par événement.
 
 ### Étapes
 ```bash
-git clone https://github.com/samarlarbi/MiniProjet2A-Reservation-evenements---Samar-Larbi-G03.git
+git clone https://github.com/samarlarbi/MiniProjet2A_Samar_Larbi_G03.git
 cd MiniProjet2A-EventReservation
 composer install
 cp .env .env.local
@@ -51,6 +53,37 @@ docker compose up -d --build
 ```
 
 Application disponible sur `http://localhost:8000`.
+
+
+## Endpoints
+
+### Authentification (publics)
+
+| Méthode | URL | Description |
+|---------|-----|-------------|
+| POST | `/api/auth/register/options` | Génère le challenge WebAuthn pour l'inscription |
+| POST | `/api/auth/register/verify` | Vérifie la passkey et crée le compte |
+| POST | `/api/auth/login/options` | Génère le challenge WebAuthn pour la connexion |
+| POST | `/api/auth/login/verify` | Vérifie la passkey et retourne les jetons JWT |
+| POST | `/api/token/refresh` | Renouvelle le jeton JWT via le refresh token |
+
+### Utilisateur authentifié (JWT requis)
+
+| Méthode | URL | Description |
+|---------|-----|-------------|
+| GET | `/api/auth/me` | Retourne les infos de l'utilisateur connecté |
+| GET | `/` | Liste tous les événements |
+| GET | `/event/{id}` | Détail d'un événement |
+| POST | `/event/{id}` | Réserver une place pour un événement |
+### Administration (ROLE_ADMIN requis)
+
+| Méthode | URL | Description |
+|---------|-----|-------------|
+| GET | `/admin/dashboard` | Tableau de bord administrateur |
+| GET/POST | `/admin/event/new` | Créer un événement |
+| GET/POST | `/admin/event/{id}/edit` | Modifier un événement |
+| POST | `/admin/event/{id}` | Supprimer un événement |
+| GET | `/admin/event/{id}/reservations` | Voir les réservations d'un événement |
 
 ## Utilisation
 
